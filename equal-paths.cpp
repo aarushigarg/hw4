@@ -13,6 +13,12 @@ using namespace std;
 bool equalPaths(Node * root)
 {
     // Add your code below
-
+    if (root->left == NULL && root->right == NULL) {
+        return true;
+    }
+    if (root->left == NULL || root->right == NULL) {
+        return false;
+    }
+    return (equalPaths(root->left) && equalPaths(root->right));
 }
 
