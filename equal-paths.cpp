@@ -1,6 +1,6 @@
 #ifndef RECCHECK
 //if you want to add any #includes like <iostream> you must do them here (before the next endif)
-
+#include <algorithm>
 #endif
 
 #include "equal-paths.h"
@@ -8,6 +8,7 @@ using namespace std;
 
 
 // You may add any prototypes of helper functions here
+int pathLength(Node * root);
 
 
 bool equalPaths(Node * root)
@@ -19,9 +20,23 @@ bool equalPaths(Node * root)
     if (root->left == NULL && root->right == NULL) {
         return true;
     }
-    if (root->left == NULL || root->right == NULL) {
+    if (root->left == NULL && root->right != NULL || root->left != NULL && root->right == NULL) {
         return false;
     }
-    return (equalPaths(root->left) && equalPaths(root->right));
+    if (pathLength(root->left) == pathLength(root->right)) {
+        return true;
+    }
+    return false;
+}
+
+int pathLength(Node * root) {
+    if (root == NULL) {
+        return 0;
+    }
+    if (root->left == NULL && root->right == NULL) {
+        return 1;
+    }
+    return 1 + max(pathLength(root->left), pathLength(root->right));
+    
 }
 
