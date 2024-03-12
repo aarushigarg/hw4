@@ -20,8 +20,11 @@ bool equalPaths(Node * root)
     if (root->left == NULL && root->right == NULL) {
         return true;
     }
-    if (root->left == NULL && root->right != NULL || root->left != NULL && root->right == NULL) {
-        return false;
+    if (root->left == NULL && root->right != NULL) {
+        return pathLength(root->right->left) == pathLength(root->right->right);
+    }
+    if (root->left != NULL && root->right == NULL) {
+        return pathLength(root->left->left) == pathLength(root->left->right);
     }
     if (pathLength(root->left) == pathLength(root->right)) {
         return true;
