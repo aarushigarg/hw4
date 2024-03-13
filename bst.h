@@ -498,10 +498,12 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
 
     Node<Key, Value>* parent = remNode->getParent();
     if (remNode->getLeft() == NULL && remNode->getRight() == NULL) {
-        if (parent->getLeft() == remNode)
-            parent->setLeft(NULL);
-        else   
-            parent->setRight(NULL);
+        if (parent) {
+            if (parent->getLeft() == remNode)
+                parent->setLeft(NULL);
+            else   
+                parent->setRight(NULL);
+        }
         delete remNode;
     }
     else if (remNode->getLeft() != NULL && remNode->getRight() != NULL) {
@@ -511,21 +513,33 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
     }
     else {
         if (remNode->getLeft() != NULL) {
-            if (parent->getLeft() == remNode) {
-                parent->setLeft(remNode->getLeft());
+            if (parent) {
+                if (parent->getLeft() == remNode) {
+                    parent->setLeft(remNode->getLeft());
+                }
+                else {
+                    parent->setRight(remNode->getLeft());
+                }
+                remNode->getLeft()->setParent(parent);
             }
             else {
-                parent->setRight(remNode->getLeft());
+                root_ = remNode->getLeft();
+                remNode->getLeft()->setParent(NULL);
             }
-            remNode->getLeft()->setParent(parent);
             delete remNode;
         }
         else {
-            if (parent->getLeft() == remNode) {
-                parent->setLeft(remNode->getRight());
+            if (parent) {
+                if (parent->getLeft() == remNode) {
+                    parent->setLeft(remNode->getRight());
+                }
+                else {
+                    parent->setRight(remNode->getRight());
+                }
             }
             else {
-                parent->setRight(remNode->getRight());
+                root_ = remNode->getRight();
+                remNode->getRight()->setParent(NULL);
             }
             remNode->getRight()->setParent(parent);
             delete remNode;
