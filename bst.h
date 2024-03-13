@@ -326,7 +326,7 @@ bool
 BinarySearchTree<Key, Value>::iterator::operator!=(const BinarySearchTree<Key, Value>::iterator& rhs) const
 {
     // TODO
-    return current_->getValue() != rhs.current_->getValue();
+    return current_ != rhs.current_;
 }
 
 
