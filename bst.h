@@ -741,12 +741,12 @@ int BinarySearchTree<Key, Value>::heightFinder(Node<Key, Value>* current) const 
     if (current == NULL)
         return 0;
 
-    int leftHeight = balancedHelper(current->getLeft());
+    int leftHeight = heightFinder(current->getLeft());
     if (leftHeight == -1) {
         return -1;
     }
 
-    int rightHeight = balancedHelper(current->getRight());
+    int rightHeight = heightFinder(current->getRight());
     if (rightHeight == -1) {
         return -1;
     }
