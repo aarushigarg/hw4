@@ -504,6 +504,8 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
             else   
                 parent->setRight(NULL);
         }
+        else
+            root_ = NULL;
         delete remNode;
     }
     else if (remNode->getLeft() != NULL && remNode->getRight() != NULL) {
