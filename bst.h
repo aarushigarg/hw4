@@ -509,6 +509,11 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
     }
 
     Node<Key, Value>* parent = remNode->getParent();
+    if (remNode->getLeft() != NULL && remNode->getRight() != NULL) { 
+        Node<Key, Value>* pred = predecessor(remNode);
+        nodeSwap(remNode, pred);
+    }
+    
     if (remNode->getLeft() == NULL && remNode->getRight() == NULL) {
         if (parent) {
             if (parent->getLeft() == remNode)
@@ -519,11 +524,6 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
         else
             root_ = NULL;
         delete remNode;
-    }
-    else if (remNode->getLeft() != NULL && remNode->getRight() != NULL) { 
-        Node<Key, Value>* pred = predecessor(remNode);
-        nodeSwap(remNode, pred);
-        remove(key);
     }
     else {
         if (remNode->getLeft() != NULL) {
@@ -634,10 +634,10 @@ Node<Key, Value>* BinarySearchTree<Key, Value>::internalFind(const Key& key) con
             return temp;
         }
         else if (temp->getKey() < key) {
-            temp = temp->getLeft();
+            temp = temp->getRight();
         }
         else {
-            temp = temp->getRight();
+            temp = temp->getLeft();
         }
     }
     return NULL;
