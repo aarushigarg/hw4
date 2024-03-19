@@ -520,19 +520,21 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
             root_ = NULL;
         delete remNode;
     }
-    else if (remNode->getLeft() != NULL && remNode->getRight() != NULL) {
+    else if (remNode->getLeft() != NULL && remNode->getRight() != NULL) {  // problem here
         Node<Key, Value>* pred = predecessor(remNode);
         nodeSwap(remNode, pred);
         
-        Node<Key, Value>* predChild = pred->getLeft();
-
-        if (predChild != NULL) 
-            predChild->setParent(pred->getParent());
-        
-        if (pred->getParent()->getLeft() == remNode) 
-            pred->getParent()->setLeft(predChild);
-        else
-            pred->getParent()->setRight(predChild);
+        // Node<Key, Value>* otherChild;
+        // if (pred->getLeft() != remNode) {
+        //     otherChild = pred->getLeft();
+        //     if (otherChild != NULL)
+        //         otherChild->setParent(remNode);
+        // }
+        // else {
+        //     otherChild = pred->getRight();
+        //     if (otherChild != NULL)
+        //         otherChild->setParent(remNode);
+        // }
 
         delete pred;
 
