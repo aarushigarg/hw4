@@ -531,7 +531,7 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
         
         if (pred->getParent()->getLeft() == remNode) 
             pred->getParent()->setLeft(predChild);
-        else {
+        else
             pred->getParent()->setRight(predChild);
 
         delete pred;
