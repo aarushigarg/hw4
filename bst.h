@@ -326,7 +326,7 @@ bool
 BinarySearchTree<Key, Value>::iterator::operator!=(const BinarySearchTree<Key, Value>::iterator& rhs) const
 {
     // TODO
-    return current_ != rhs.current_;
+    return current_->getValue() != rhs.current_->getValue();
 }
 
 
@@ -510,7 +510,7 @@ void BinarySearchTree<Key, Value>::remove(const Key& key)
     }
     else if (remNode->getLeft() != NULL && remNode->getRight() != NULL) {
         Node<Key, Value>* pred = predecessor(remNode);
-        nodeSwap(remNode, pred);
+        nodeSwap(remNode, pred);  // check
         delete pred;
     }
     else {
