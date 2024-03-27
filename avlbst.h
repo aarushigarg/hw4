@@ -137,8 +137,7 @@ protected:
     virtual void nodeSwap( AVLNode<Key,Value>* n1, AVLNode<Key,Value>* n2);
 
     // Add helper functions here
-
-
+    void insertFix(AVLNode<Key, Value>* p, AVLNode<Key, Value>* n);
 };
 
 /*
@@ -149,6 +148,97 @@ template<class Key, class Value>
 void AVLTree<Key, Value>::insert (const std::pair<const Key, Value> &new_item)
 {
     // TODO
+    if (empty()) {
+        AVLNode<Key, Value>* newNode = new AVLNode<Key, Value>(new_item.first, new_item.second, NULL);
+        root_ = newNode;
+        return;
+    }
+
+    // find parent
+    AVLNode<Key, Value> *p = NULL;
+    AVLNode<Key, Value> *current = AVLNode<Key, Value>*(root_);
+    while (current != NULL) {
+        p = current;
+        if (new_item.first < current->getKey()) {
+            current = current->getLeft();
+        } 
+        else if (new_item.first > current->getKey()) {
+            current = current->getRight();
+        } else {
+            current->setValue(new_item.second);
+            return;
+        }
+    }
+    // insert the node
+    AVLNode<Key, Value>* newNode = new AVLNode<Key, Value>(new_item.first, new_item.second, p);
+    if (new_item.first < p->getKey()) {
+        p->setLeft(newNode);
+        insertFix(p, newNode);
+    } 
+    else {
+        p->setRight(newNode);
+        insertFix(p, newNode);
+    }
+
+    // check balance of parent
+    if (p->getBalance() == 0) {
+        insertFix(p, newNode);
+    }
+    else {
+        p->setBalance(0);
+    }
+
+}
+
+template<class Key, class Value>
+void AVLTree<Key, Value>::insertFix(AVLNode<Key, Value>* p, AVLNode<Key, Value>* n) {
+    if (p == NULL || p->getParent() == NULL) {
+        return;
+    }
+
+    AVLNode<Key, Value>* g = p->getParent();
+    // p is left child
+    if (p == g->getLeft()) {
+        g->updateBalance(g->getBalance()-1);
+        if (g->getBalance() == 0) {
+            return;
+        }
+        if (g->getBalance() == -1) {
+            insertFix(g, p);
+        }
+        else {
+            if (p->getLeft() == n) {
+                // zig-zig
+                BinarySearchTree<Key, Value>::rotateRight(g);
+                p->setBalance(0);
+                g->setBalance(0);
+            }
+            else {
+                // zig-zag
+                BinarySearchTree<Key, Value>::rotateLeft(p);
+                BinarySearchTree<Key, Value>::rotateRight(g);
+                if (n->getBalance() == -1) {
+                    p->setBalance(0);
+                    g->setBalance(1);
+                    n->setBalance(0);
+                }
+                else if (n->getBalance() == 0) {
+                    p->setBalance(0);
+                    g->setBalance(0);
+                    n->setBalance(0);
+                }
+                else {
+                    p->setBalance(-1);
+                    g->setBalance(0);
+                    n->setBalance(0);
+                }
+            }
+        }
+    } 
+    // p is right child
+    else {
+        g->updateBalance(g->getBalance()+1);
+    }
 }
 
 /*
@@ -159,6 +249,7 @@ template<class Key, class Value>
 void AVLTree<Key, Value>:: remove(const Key& key)
 {
     // TODO
+
 }
 
 template<class Key, class Value>
