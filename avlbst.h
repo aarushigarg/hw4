@@ -152,13 +152,13 @@ void AVLTree<Key, Value>::insert (const std::pair<const Key, Value> &new_item)
     // TODO
     if (empty()) {
         AVLNode<Key, Value>* newNode = new AVLNode<Key, Value>(new_item.first, new_item.second, NULL);
-        root_ = newNode;
+        this->root_ = newNode;
         return;
     }
 
     // find parent
     AVLNode<Key, Value> *p = NULL;
-    AVLNode<Key, Value> *current = AVLNode<Key, Value>*(root_);
+    AVLNode<Key, Value> *current = AVLNode<Key, Value>*(this->root_);
     while (current != NULL) {
         p = current;
         if (new_item.first < current->getKey()) {
@@ -282,7 +282,7 @@ void AVLTree<Key, Value>::rotateLeft(AVLNode<Key, Value>* n) {
     AVLNode<Key, Value>* p = n->getRight();
     AVLNode<Key, Value>* g = n->getParent();
     if (g == NULL) {
-        root_ = p;
+        this->root_ = p;
     }
     else {
         if (n == g->getLeft()) {
@@ -306,7 +306,7 @@ void AVLTree<Key, Value>::rotateRight(AVLNode<Key, Value>* n) {
     AVLNode<Key, Value>* p = n->getLeft();
     AVLNode<Key, Value>* g = n->getParent();
     if (g == NULL) {
-        root_ = p;
+        this->root_ = p;
     }
     else {
         if (n == g->getLeft()) {
