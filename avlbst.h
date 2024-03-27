@@ -150,7 +150,7 @@ template<class Key, class Value>
 void AVLTree<Key, Value>::insert (const std::pair<const Key, Value> &new_item)
 {
     // TODO
-    if (empty()) {
+    if (this->empty()) {
         AVLNode<Key, Value>* newNode = new AVLNode<Key, Value>(new_item.first, new_item.second, NULL);
         this->root_ = newNode;
         return;
@@ -158,7 +158,7 @@ void AVLTree<Key, Value>::insert (const std::pair<const Key, Value> &new_item)
 
     // find parent
     AVLNode<Key, Value> *p = NULL;
-    AVLNode<Key, Value> *current = AVLNode<Key, Value>*(this->root_);
+    AVLNode<Key, Value> *current = this->root_;
     while (current != NULL) {
         p = current;
         if (new_item.first < current->getKey()) {
